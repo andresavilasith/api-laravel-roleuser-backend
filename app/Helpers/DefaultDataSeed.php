@@ -30,15 +30,14 @@ class DefaultDataSeed
             ]
         );
 
+        
         $role = Role::first();
 
-        Category::factory()->count(2)->create();
+        Category::factory()->times(2)->create();
         
         
-        $category=Category::first();
         
-        
-        Permission::factory()->times(2)->create();
+        Permission::factory()->times(5)->create();
 
         $permissions = Permission::all();
 

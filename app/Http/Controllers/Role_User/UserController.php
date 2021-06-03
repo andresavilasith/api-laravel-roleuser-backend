@@ -8,7 +8,6 @@ use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Models\Role_User\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -55,14 +54,9 @@ class UserController extends Controller
         //Con el with trae el usuario con pivot es decir con los roles que tiene el usuario
         $users = User::with('roles')->paginate(5);
 
-        $users_list = [];
-
-        foreach ($users as $us) {
-            $users_list[] = $us;
-        }
-
         return response()->json([
-            'users_list' => $users_list
+            'users' => $users,
+            'status'=>'success'
         ]);
     }
 
@@ -74,7 +68,8 @@ class UserController extends Controller
 
         return response()->json([
             'user' => $user,
-            'roles' => $roles
+            'roles' => $roles,
+            'status'=>'success'
         ]);
     }
 
@@ -86,7 +81,8 @@ class UserController extends Controller
 
         return response()->json([
             'user'=>$user,
-            'roles'=>$roles
+            'roles'=>$roles,
+            'status'=>'success'
         ]);
     }
 
@@ -102,8 +98,9 @@ class UserController extends Controller
         }
 
         return response()->json([
+            'user'=>$user,
             'message'=>'User updated successfully',
-            'user'=>$user
+            'status'=>'success'
         ]);
     }
 
@@ -113,7 +110,8 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            'message'=>'User deletes successfully'
+            'message'=>'User deletes successfully',
+            'status'=>'success'
         ]);
     }
 }
