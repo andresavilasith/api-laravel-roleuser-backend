@@ -56,7 +56,19 @@ class UserController extends Controller
 
         return response()->json([
             'users' => $users,
-            'status'=>'success'
+            'status' => 'success'
+        ]);
+    }
+
+    public function user_identified()
+    {
+
+        $user = Auth::user();
+
+        Gate::authorize('view', [$user, ['user.show', 'userown.show']]);
+
+        return response()->json([
+            'user' => $user
         ]);
     }
 
@@ -69,7 +81,7 @@ class UserController extends Controller
         return response()->json([
             'user' => $user,
             'roles' => $roles,
-            'status'=>'success'
+            'status' => 'success'
         ]);
     }
 
@@ -80,27 +92,30 @@ class UserController extends Controller
         $roles = Role::orderBy('name')->paginate(5);
 
         return response()->json([
-            'user'=>$user,
-            'roles'=>$roles,
-            'status'=>'success'
+            'user' => $user,
+            'roles' => $roles,
+            'status' => 'success'
         ]);
     }
 
     public function update(UserUpdateRequest $request, User $user)
     {
+        
         $user->update([
-            'name'=> $request->name,
-            'email'=> $request->email
+            'name' => $request->name,
+            'email' => $request->email
         ]);
 
-        if($request->get('roles')){
+
+
+        if ($request->get('roles')) {
             $user->roles()->sync($request->get('roles'));
         }
 
         return response()->json([
-            'user'=>$user,
-            'message'=>'User updated successfully',
-            'status'=>'success'
+            'user' => $user,
+            'message' => 'User updated successfully',
+            'status' => 'success'
         ]);
     }
 
@@ -110,8 +125,8 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            'message'=>'User deletes successfully',
-            'status'=>'success'
+            'message' => 'User deletes successfully',
+            'status' => 'success'
         ]);
     }
 }

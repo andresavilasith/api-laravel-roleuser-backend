@@ -8,6 +8,7 @@ use App\Models\Role_User\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -56,6 +57,24 @@ class UserControllerTest extends TestCase
         $response->assertJsonStructure(['access_token', 'user_id']);
     }
 
+    /** @test */
+    public function test_user_identified()
+    {
+        DefaultDataSeed::default_data_seed();
+        $user = User::first();
+
+        Passport::actingAs($user);
+
+        $response = $this->getJson('/api/panel/user/identified');
+        
+        Gate::authorize('view', [$user, ['user.show', 'userown.show']]);
+        $response->assertOk();
+
+        $user = Auth::user();
+
+        $response->assertJsonStructure(['user']);
+    }
+
 
     /** @test */
     public function test_user_index()
@@ -71,16 +90,16 @@ class UserControllerTest extends TestCase
 
         $response = $this->getJson('/api/panel/user');
 
-        
+
         Gate::authorize('haveaccess', 'user.index');
 
         $response->assertOk();
 
         $users = User::with('roles')->paginate(5);
 
-        
 
-        $response->assertJsonStructure(['users','status'])->assertStatus(200);
+
+        $response->assertJsonStructure(['users', 'status'])->assertStatus(200);
     }
 
     /** @test */
@@ -103,7 +122,7 @@ class UserControllerTest extends TestCase
         $response->assertOk();
 
 
-        $response->assertJsonStructure(['user', 'roles','status'])->assertStatus(200);
+        $response->assertJsonStructure(['user', 'roles', 'status'])->assertStatus(200);
     }
 
     /** @test */
@@ -126,7 +145,7 @@ class UserControllerTest extends TestCase
         $response->assertOk();
 
 
-        $response->assertJsonStructure(['user', 'roles','status'])->assertStatus(200);
+        $response->assertJsonStructure(['user', 'roles', 'status'])->assertStatus(200);
     }
 
 
@@ -178,7 +197,7 @@ class UserControllerTest extends TestCase
         $this->assertEquals($current_role[0], $last_role->id);
 
 
-        $response->assertJsonStructure(['user','message','status'])->assertStatus(200);
+        $response->assertJsonStructure(['user', 'message', 'status'])->assertStatus(200);
     }
 
     /** @test */
@@ -199,6 +218,6 @@ class UserControllerTest extends TestCase
 
 
 
-        $response->assertJsonStructure(['message','status'])->assertStatus(200);
+        $response->assertJsonStructure(['message', 'status'])->assertStatus(200);
     }
 }
