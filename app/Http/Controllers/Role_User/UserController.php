@@ -65,8 +65,6 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        Gate::authorize('view', [$user, ['user.show', 'userown.show']]);
-
         return response()->json([
             'user' => $user
         ]);
