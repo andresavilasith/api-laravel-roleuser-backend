@@ -66,13 +66,8 @@ class UserControllerTest extends TestCase
         Passport::actingAs($user);
 
         $response = $this->getJson('/api/panel/user/identified');
-        
-        Gate::authorize('view', [$user, ['user.show', 'userown.show']]);
+
         $response->assertOk();
-
-        $user = Auth::user();
-
-        $response->assertJsonStructure(['user']);
     }
 
 

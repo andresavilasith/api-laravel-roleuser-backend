@@ -65,10 +65,10 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        return response()->json([
-            'user' => $user
-        ]);
+        return $user;
     }
+
+
 
     public function show(User $user)
     {
@@ -98,7 +98,7 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
-        
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email
