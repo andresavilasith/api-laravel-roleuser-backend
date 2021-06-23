@@ -24,7 +24,7 @@ class UserController extends Controller
 
 
 
-        //$user->roles()->sync([2]);
+        $user->roles()->sync([2]);
 
         return response()->json([
             'message' => 'User register successfully'
