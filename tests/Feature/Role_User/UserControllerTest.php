@@ -21,12 +21,22 @@ class UserControllerTest extends TestCase
     public function test_user_register()
     {
         $this->withoutExceptionHandling();
+        
+        Role::factory()->times(2)->create();
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'User test',
             'email' => 'user@user.com',
-            'password' => '1234'
+            'password' => '1234',
+            'roles'=>[2]
         ]);
+
+        $role=Role::find(2);
+
+        $user = User::with('roles')->latest('id')->first();
+
+        $user->roles()->sync([$role->id]);
+        
 
         $response->assertStatus(201);
 

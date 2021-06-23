@@ -16,13 +16,19 @@ class UserController extends Controller
 {
     public function register(UserRegisterRequest $request)
     {
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        return response()->json(['message' => 'User register successfully'], 201);
+
+
+        //$user->roles()->sync([2]);
+
+        return response()->json([
+            'message' => 'User register successfully'
+        ], 201);
     }
 
     public function login(UserLoginRequest $request)

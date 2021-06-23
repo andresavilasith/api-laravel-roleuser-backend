@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\RegisteredEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
+    
     /**
      * The event listener mappings for the application.
      *
@@ -18,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        //Registrar la direccion donde esta la clase 
         Registered::class => [
             'App\Listeners\RegisteredEvent',
         ],
@@ -30,6 +33,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        parent::boot();
     }
 }
