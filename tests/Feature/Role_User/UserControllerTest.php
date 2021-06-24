@@ -21,22 +21,22 @@ class UserControllerTest extends TestCase
     public function test_user_register()
     {
         $this->withoutExceptionHandling();
-        
+
         Role::factory()->times(2)->create();
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'User test',
             'email' => 'user@user.com',
             'password' => '1234',
-            'roles'=>[2]
+            'roles' => [2]
         ]);
 
-        $role=Role::find(2);
+        $role = Role::find(2);
 
         $user = User::with('roles')->latest('id')->first();
 
         $user->roles()->sync([$role->id]);
-        
+
 
         $response->assertStatus(201);
 
@@ -122,12 +122,18 @@ class UserControllerTest extends TestCase
 
         Gate::authorize('view', [$user, ['user.show', 'userown.show']]);
 
+        $role_user = [];
+
+        foreach ($user->roles as $role) {
+            array_push($role_user, $role->id);
+        }
+
         $roles = Role::orderBy('name')->get();
 
         $response->assertOk();
 
 
-        $response->assertJsonStructure(['user', 'roles', 'status'])->assertStatus(200);
+        $response->assertJsonStructure(['user', 'roles', 'role_user', 'status'])->assertStatus(200);
     }
 
     /** @test */

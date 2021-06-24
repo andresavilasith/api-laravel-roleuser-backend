@@ -80,11 +80,17 @@ class UserController extends Controller
     {
         Gate::authorize('view', [$user, ['user.show', 'userown.show']]);
 
+        $role_user = [];
+        foreach ($user->roles as $role) {
+            array_push($role_user, $role->id);
+        }
+
         $roles = Role::orderBy('name')->get();
 
         return response()->json([
             'user' => $user,
             'roles' => $roles,
+            'role_user'=>$role_user,
             'status' => 'success'
         ]);
     }
