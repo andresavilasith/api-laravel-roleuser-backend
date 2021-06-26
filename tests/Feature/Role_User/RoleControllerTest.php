@@ -237,6 +237,6 @@ class RoleControllerTest extends TestCase
 
         $this->assertCount(0, Role::all());
 
-        $response->assertJsonStructure(['status', 'message']);
+        $response->assertJsonStructure(['status', 'message','roles']);
     }
 }

@@ -179,9 +179,7 @@ class PermissionControllerTest extends TestCase
         Passport::actingAs($user);
 
         $permission=Permission::first();
-        
 
-        
         $response=$this->deleteJson('/api/panel/permission/'.$permission->id);
         
         Gate::authorize('haveaccess', 'category.destroy');
@@ -191,6 +189,6 @@ class PermissionControllerTest extends TestCase
 
         $this->assertCount(4,Permission::all());
 
-        $response->assertJsonStructure(['status','message'])->assertStatus(200);
+        $response->assertJsonStructure(['status','message','permissions'])->assertStatus(200);
     }
 }

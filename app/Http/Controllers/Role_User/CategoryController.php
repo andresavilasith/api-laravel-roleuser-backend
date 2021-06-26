@@ -66,9 +66,12 @@ class CategoryController extends Controller
     {
         $category->delete();
 
+        $categories = $category->all();
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Category deleted successfully'
+            'message' => 'Category deleted successfully',
+            'categories' => $categories
         ]);
     }
 }

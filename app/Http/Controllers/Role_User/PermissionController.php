@@ -66,9 +66,12 @@ class PermissionController extends Controller
 
         $permission->delete();
 
+        $permissions = $permission->all();
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Permission deleted successfully'
+            'message' => 'Permission deleted successfully',
+            'permissions' => $permissions
         ]);
     }
 }

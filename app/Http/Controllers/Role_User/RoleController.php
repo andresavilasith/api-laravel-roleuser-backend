@@ -11,6 +11,8 @@ use App\Models\Role_User\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
+use function GuzzleHttp\Promise\all;
+
 class RoleController extends Controller
 {
     public function index()
@@ -123,9 +125,12 @@ class RoleController extends Controller
 
         $role->delete();
 
+        $roles = $role->all();
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Role deleted successfully'
+            'message' => 'Role deleted successfully',
+            'roles' => $roles
         ]);
     }
 }

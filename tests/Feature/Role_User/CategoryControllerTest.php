@@ -176,6 +176,6 @@ class CategoryControllerTest extends TestCase
 
         $this->assertCount(6,Category::all());
 
-        $response->assertJsonStructure(['status','message'])->assertStatus(200);
+        $response->assertJsonStructure(['status','message','categories'])->assertStatus(200);
     }
 }
