@@ -90,7 +90,7 @@ class UserController extends Controller
         return response()->json([
             'user' => $user,
             'roles' => $roles,
-            'role_user'=>$role_user,
+            'role_user' => $role_user,
             'status' => 'success'
         ]);
     }
@@ -99,17 +99,25 @@ class UserController extends Controller
     {
         Gate::authorize('update', [$user, ['user.edit', 'userown.edit']]);
 
-        $roles = Role::orderBy('name')->paginate(5);
+        $roles = Role::orderBy('name')->get();
+
+        $role_user = [];
+        foreach ($user->roles as $role) {
+            array_push($role_user, $role->id);
+        }
+
 
         return response()->json([
             'user' => $user,
             'roles' => $roles,
+            'role_user' => $role_user,
             'status' => 'success'
         ]);
     }
 
     public function update(UserUpdateRequest $request, User $user)
     {
+        Gate::authorize('update', [$user, ['user.edit', 'userown.edit']]);
 
         $user->update([
             'name' => $request->name,
@@ -133,10 +141,12 @@ class UserController extends Controller
     {
         Gate::authorize('haveaccess', 'user.destroy');
         $user->delete();
+        $users = $user->all();
 
         return response()->json([
             'message' => 'User deletes successfully',
-            'status' => 'success'
+            'status' => 'success',
+            'users' => $users
         ]);
     }
 }

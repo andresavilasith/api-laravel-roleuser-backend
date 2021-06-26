@@ -151,12 +151,18 @@ class UserControllerTest extends TestCase
 
         Gate::authorize('update', [$user, ['user.edit', 'userown.edit']]);
 
-        $roles = Role::orderBy('name')->paginate(5);
+        $role_user = [];
+
+        foreach ($user->roles as $role) {
+            array_push($role_user, $role->id);
+        }
+
+        $roles = Role::orderBy('name')->get();
 
         $response->assertOk();
 
 
-        $response->assertJsonStructure(['user', 'roles', 'status'])->assertStatus(200);
+        $response->assertJsonStructure(['user', 'roles', 'role_user', 'status'])->assertStatus(200);
     }
 
 
@@ -229,6 +235,6 @@ class UserControllerTest extends TestCase
 
 
 
-        $response->assertJsonStructure(['message', 'status'])->assertStatus(200);
+        $response->assertJsonStructure(['message', 'status','users'])->assertStatus(200);
     }
 }
