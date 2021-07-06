@@ -33,16 +33,16 @@ class RoleController extends Controller
 
         $categories = Category::with('permissions')->get();
 
-        $permission_role = [];
+        $category_permission = [];
 
         foreach ($role->permissions as $permission) {
-            $permission_role[] = $permission->id;
+            $category_permission[] = $permission->category->id;
         }
 
         return response()->json([
             'role' => $role,
             'categories' => $categories,
-            'permission_role' => $permission_role,
+            'category_permission' => $category_permission,
             'status' => 'success'
         ]);
     }
@@ -68,8 +68,8 @@ class RoleController extends Controller
             'full_access' => $request->full_access
         ]);
 
-        if ($request->get('permission')) {
-            $role->permissions()->sync($request->get('permission'));
+        if ($request->get('permissions')) {
+            $role->permissions()->sync($request->get('permissions'));
         }
 
         return response()->json([
@@ -87,7 +87,7 @@ class RoleController extends Controller
         $permission_role = [];
 
         foreach ($role->permissions as $permission) {
-            $permission_role = $permission->id;
+            $permission_role []= $permission->id;
         }
 
         return response()->json([
@@ -107,8 +107,8 @@ class RoleController extends Controller
             'full_access' => $request->full_access
         ]);
 
-        if ($request->get('permission')) {
-            $role->permissions()->sync($request->get('permission'));
+        if ($request->get('permissions')) {
+            $role->permissions()->sync($request->get('permissions'));
         }
 
         return response()->json([
