@@ -30,6 +30,11 @@ class CategoryController extends Controller
         ]);
     }
 
+	public function create()
+    {
+        Gate::authorize('haveaccess', 'category.create');
+    }
+
     public function store(CategoryStoreRequest $request)
     {
         Gate::authorize('haveaccess', 'category.create');

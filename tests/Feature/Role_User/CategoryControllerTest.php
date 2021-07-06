@@ -60,6 +60,22 @@ class CategoryControllerTest extends TestCase
         $response->assertJsonStructure(['category', 'status']);
     }
 
+    /** @test */
+    public function test_category_create(){
+        $this->withoutExceptionHandling();
+
+        DefaultDataSeed::default_data_seed();
+
+        $user = User::first();
+
+        Passport::actingAs($user);
+
+        $response = $this->getJson('/api/panel/category/create');
+
+        Gate::authorize('haveaccess', 'category.create');
+        $response->assertOk();
+    }
+
 
     /** @test  */
     public function test_category_store()

@@ -31,6 +31,12 @@ class PermissionController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        Gate::authorize('haveaccess', 'permission.create');
+
+    }
+
     public function store(PermissionStoreRequest $request)
     {
         Permission::create($request->all());

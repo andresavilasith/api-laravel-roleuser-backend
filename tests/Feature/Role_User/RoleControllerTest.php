@@ -163,14 +163,16 @@ class RoleControllerTest extends TestCase
         $categories = Category::with('permissions')->get();
 
         $permission_role = [];
+        $category_permission = [];
 
         foreach ($role->permissions as $permission) {
             $permission_role[] = $permission->id;
+            $category_permission[] = $permission->category->id;
         }
 
         $response->assertOk();
 
-        $response->assertJsonStructure(['role', 'categories', 'permission_role', 'status']);
+        $response->assertJsonStructure(['role', 'categories', 'permission_role', 'category_permission', 'status']);
     }
 
     /** @test */

@@ -63,6 +63,22 @@ class PermissionControllerTest extends TestCase
     }
 
     /** @test */
+    public function test_permission_create(){
+        $this->withoutExceptionHandling();
+
+        DefaultDataSeed::default_data_seed();
+
+        $user = User::first();
+
+        Passport::actingAs($user);
+
+        $response = $this->getJson('/api/panel/permission/create');
+
+        Gate::authorize('haveaccess', 'permission.create');
+        $response->assertOk();
+    }
+
+    /** @test */
     public function test_permission_store()
     {
         $this->withoutExceptionHandling();
