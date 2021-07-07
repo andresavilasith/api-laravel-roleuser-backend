@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Role_User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role_user\Permission\PermissionStoreRequest;
 use App\Http\Requests\Role_user\Permission\PermissionUpdateRequest;
+use App\Models\Role_User\Category;
 use App\Models\Role_User\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -35,6 +36,11 @@ class PermissionController extends Controller
     {
         Gate::authorize('haveaccess', 'permission.create');
 
+        $categories = Category::all();
+
+        return response()->json([
+            'categories' => $categories
+        ]);
     }
 
     public function store(PermissionStoreRequest $request)

@@ -73,7 +73,12 @@ class CategoryControllerTest extends TestCase
         $response = $this->getJson('/api/panel/category/create');
 
         Gate::authorize('haveaccess', 'category.create');
+
         $response->assertOk();
+
+        $response->assertJsonStructure([
+            'status'
+        ])->assertStatus(200);
     }
 
 

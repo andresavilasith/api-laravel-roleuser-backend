@@ -3,6 +3,7 @@
 namespace Tests\Feature\Role_User;
 
 use App\Helpers\DefaultDataSeed;
+use App\Models\Role_User\Category;
 use App\Models\Role_User\Permission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -63,7 +64,8 @@ class PermissionControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_permission_create(){
+    public function test_permission_create()
+    {
         $this->withoutExceptionHandling();
 
         DefaultDataSeed::default_data_seed();
@@ -75,7 +77,14 @@ class PermissionControllerTest extends TestCase
         $response = $this->getJson('/api/panel/permission/create');
 
         Gate::authorize('haveaccess', 'permission.create');
+
         $response->assertOk();
+
+        $categories = Category::all();
+
+        $response->assertJsonStructure([
+            'categories'
+        ])->assertStatus(200);
     }
 
     /** @test */
@@ -157,8 +166,8 @@ class PermissionControllerTest extends TestCase
         $name = 'permission updated';
         $slug = 'permission.updated';
         $description = 'description updated';
-        
-        
+
+
         $response = $this->putJson('/api/panel/permission/' . $permission->id, [
             'category_id' => $category_id,
             'name' => $name,
@@ -172,16 +181,16 @@ class PermissionControllerTest extends TestCase
 
         //dd(count(Permission::all()));5
 
-        $this->assertCount(5,Permission::all());
+        $this->assertCount(5, Permission::all());
 
-        $permission=$permission->fresh();
+        $permission = $permission->fresh();
 
         $this->assertEquals($permission->category_id, $category_id);
         $this->assertEquals($permission->name, $name);
         $this->assertEquals($permission->slug, $slug);
         $this->assertEquals($permission->description, $description);
 
-        $response->assertJsonStructure(['status','message']);
+        $response->assertJsonStructure(['status', 'message']);
     }
 
     public function test_permission_destroy()
@@ -190,21 +199,21 @@ class PermissionControllerTest extends TestCase
 
         DefaultDataSeed::default_data_seed();
 
-        $user=User::first();
+        $user = User::first();
 
         Passport::actingAs($user);
 
-        $permission=Permission::first();
+        $permission = Permission::first();
 
-        $response=$this->deleteJson('/api/panel/permission/'.$permission->id);
-        
+        $response = $this->deleteJson('/api/panel/permission/' . $permission->id);
+
         Gate::authorize('haveaccess', 'category.destroy');
-        
+
         $response->assertOk();
 
 
-        $this->assertCount(4,Permission::all());
+        $this->assertCount(4, Permission::all());
 
-        $response->assertJsonStructure(['status','message','permissions'])->assertStatus(200);
+        $response->assertJsonStructure(['status', 'message', 'permissions'])->assertStatus(200);
     }
 }

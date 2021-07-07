@@ -30,9 +30,13 @@ class CategoryController extends Controller
         ]);
     }
 
-	public function create()
+    public function create()
     {
         Gate::authorize('haveaccess', 'category.create');
+
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 
     public function store(CategoryStoreRequest $request)
