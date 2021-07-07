@@ -26,8 +26,11 @@ class PermissionController extends Controller
 
     public function show(Permission $permission)
     {
+        $categories=Category::all();
+
         return response()->json([
             'permission' => $permission,
+            'categories' => $categories,
             'status' => 'success'
         ]);
     }
