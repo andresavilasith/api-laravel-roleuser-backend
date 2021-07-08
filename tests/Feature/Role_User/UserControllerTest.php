@@ -93,16 +93,14 @@ class UserControllerTest extends TestCase
 
         Passport::actingAs($user);
 
-        $response = $this->getJson('/api/panel/user');
+        $response = $this->postJson('/api/panel/user');
 
 
         Gate::authorize('haveaccess', 'user.index');
 
+        $users = User::searchUser();
+        
         $response->assertOk();
-
-        $users = User::with('roles')->paginate(5);
-
-
 
         $response->assertJsonStructure(['users', 'status'])->assertStatus(200);
     }

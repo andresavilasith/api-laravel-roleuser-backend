@@ -6,15 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Role_user\Category\CategoryStoreRequest;
 use App\Http\Requests\Role_user\Category\CategoryUpdateRequest;
 use App\Models\Role_User\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('haveaccess', 'category.index');
 
-        $categories = Category::paginate(10);
+        $categories = Category::searchCategory($request->categoryvalue);
 
         return response()->json([
             'categories' => $categories,

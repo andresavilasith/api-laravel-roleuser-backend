@@ -14,4 +14,15 @@ class Category extends Model
     {
         return $this->hasMany(Permission::class);
     }
+
+    public static function searchCategory($value=''){
+        if(!$value){
+            return self::paginate(10);
+        }
+
+        return self::where('id','like',"%$value%")
+        ->orWhere('name','like',"%$value%")
+        ->orWhere('description','like',"%$value%")
+        ->paginate(10);
+    }
 }

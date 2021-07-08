@@ -8,6 +8,7 @@ use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Models\Role_User\Role;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -52,13 +53,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
 
         Gate::authorize('haveaccess', 'user.index');
 
         //Con el with trae el usuario con pivot es decir con los roles que tiene el usuario
-        $users = User::with('roles')->paginate(5);
+        $users = User::searchUser($request->uservalue);
 
         return response()->json([
             'users' => $users,

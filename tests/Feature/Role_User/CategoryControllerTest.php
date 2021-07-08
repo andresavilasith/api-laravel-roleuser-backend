@@ -27,13 +27,13 @@ class CategoryControllerTest extends TestCase
 
         Passport::actingAs($user);
 
-        $response = $this->getJson('/api/panel/category');
+        $response = $this->postJson('/api/panel/categories');
 
         Gate::authorize('haveaccess', 'category.index');
 
+        $categories = Category::searchCategory();
         $response->assertOk();
 
-        $categories = Category::paginate(10);
 
         $response->assertJsonStructure(['categories', 'status']);
     }
@@ -95,14 +95,14 @@ class CategoryControllerTest extends TestCase
 
         $name = 'Category 1 now';
         $description = 'New Category';
-
-
-       
+        
+        
         $response = $this->postJson('/api/panel/category', [
             'name' => $name,
             'description' => $description
         ]);
-
+        
+  
 
         Gate::authorize('haveaccess', 'category.create');
 

@@ -26,10 +26,17 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:api')->prefix('panel')->group(function () {
     Route::get('user/identified', [UserController::class, 'user_identified']);
     Route::get('user/role', [UserController::class, 'user_roles_permissions']);
-    Route::resource('user', UserController::class,['except'=>['create','store']])->names('user');
-    Route::resource('role', RoleController::class)->names('role');
-    Route::resource('category', CategoryController::class)->names('category');
-    Route::resource('permission', PermissionController::class)->names('permission');
+    Route::post('user', [UserController::class, 'index']);
+    Route::resource('user', UserController::class,['except'=>['create','store','index']])->names('user');
+    
+    Route::post('roles', [RoleController::class, 'index']);
+    Route::resource('role', RoleController::class,['except'=>['index']])->names('role');
+    
+    Route::post('categories', [CategoryController::class, 'index']);
+    Route::resource('category', CategoryController::class,['except'=>['index']])->names('category');
+    
+    Route::post('permissions', [PermissionController::class, 'index']);
+    Route::resource('permission', PermissionController::class,['except'=>['index']])->names('permission');
 
     
     

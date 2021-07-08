@@ -30,13 +30,13 @@ class RoleControllerTest extends TestCase
 
         Passport::actingAs($user);
 
-        $respose = $this->getJson('/api/panel/role');
+        $respose = $this->postJson('/api/panel/roles');
 
         Gate::authorize('haveaccess', 'role.index');
 
         $respose->assertOk();
 
-        $roles = Role::paginate(10);
+        $roles = Role::searchRole();
 
         $respose->assertJsonStructure(['roles', 'status']);
     }

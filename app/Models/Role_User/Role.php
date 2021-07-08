@@ -21,4 +21,17 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::class)->withTimestamps();
     }
+
+    public static function searchRole($value=''){
+        if(!$value){
+            return self::paginate(10);
+        }
+
+        return self::where('id','like',"%$value%")
+        ->orWhere('name','like',"%$value%")
+        ->orWhere('slug','like',"%$value%")
+        ->orWhere('description','like',"%$value%")
+        ->orWhere('full_access','like',"%$value%")
+        ->paginate(10);
+    }
 }

@@ -42,4 +42,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function searchUser($value=''){
+        if(!$value){
+            return self::with('roles')->paginate(5);
+        }
+
+        return self::where('id','like',"%$value%")
+        ->orWhere('name','like',"%$value%")
+        ->orWhere('email','like',"%$value%")
+        ->paginate(5);
+    }
 }

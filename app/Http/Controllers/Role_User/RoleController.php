@@ -15,11 +15,11 @@ use function GuzzleHttp\Promise\all;
 
 class RoleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('haveaccess', 'role.index');
 
-        $roles = Role::paginate(10);
+        $roles = Role::searchRole($request->rolevalue);
 
         return response()->json([
             'roles' => $roles,

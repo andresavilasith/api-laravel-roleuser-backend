@@ -27,14 +27,14 @@ class PermissionControllerTest extends TestCase
 
         Passport::actingAs($user);
 
-        $response = $this->getJson('/api/panel/permission');
+        $response = $this->postJson('/api/panel/permissions');
 
         Gate::authorize('haveaccess', 'permission.index');
 
         $response->assertOk();
 
 
-        $permissions = Permission::paginate(10);
+        $permissions = Permission::searchPermission();
 
 
         $response->assertJsonStructure(['permissions', 'status']);

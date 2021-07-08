@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('haveaccess', 'permission.index');
 
-        $permissions = Permission::paginate(10);
+        $permissions = Permission::searchPermission($request->permissionvalue);
 
         return response()->json([
             'permissions' => $permissions,

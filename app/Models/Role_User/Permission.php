@@ -19,4 +19,16 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
+
+    public static function searchPermission($value=''){
+        if(!$value){
+            return self::paginate(10);
+        }
+
+        return self::where('id','like',"%$value%")
+        ->orWhere('name','like',"%$value%")
+        ->orWhere('slug','like',"%$value%")
+        ->orWhere('description','like',"%$value%")
+        ->paginate(10);
+    }
 }
