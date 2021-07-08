@@ -24,7 +24,7 @@ class Role extends Model
 
     public static function searchRole($value=''){
         if(!$value){
-            return self::paginate(10);
+            return self::all();
         }
 
         return self::where('id','like',"%$value%")
@@ -32,6 +32,6 @@ class Role extends Model
         ->orWhere('slug','like',"%$value%")
         ->orWhere('description','like',"%$value%")
         ->orWhere('full_access','like',"%$value%")
-        ->paginate(10);
+        ->get();
     }
 }

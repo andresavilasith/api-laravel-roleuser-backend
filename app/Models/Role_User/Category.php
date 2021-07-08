@@ -17,12 +17,12 @@ class Category extends Model
 
     public static function searchCategory($value=''){
         if(!$value){
-            return self::paginate(10);
+            return self::all();
         }
 
         return self::where('id','like',"%$value%")
         ->orWhere('name','like',"%$value%")
         ->orWhere('description','like',"%$value%")
-        ->paginate(10);
+        ->get();
     }
 }

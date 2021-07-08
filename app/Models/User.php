@@ -45,12 +45,12 @@ class User extends Authenticatable
 
     public static function searchUser($value=''){
         if(!$value){
-            return self::with('roles')->paginate(5);
+            return self::with('roles')->get();
         }
 
         return self::where('id','like',"%$value%")
         ->orWhere('name','like',"%$value%")
         ->orWhere('email','like',"%$value%")
-        ->paginate(5);
+        ->get();
     }
 }

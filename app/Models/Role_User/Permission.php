@@ -22,13 +22,13 @@ class Permission extends Model
 
     public static function searchPermission($value=''){
         if(!$value){
-            return self::paginate(10);
+            return self::all();
         }
 
         return self::where('id','like',"%$value%")
         ->orWhere('name','like',"%$value%")
         ->orWhere('slug','like',"%$value%")
         ->orWhere('description','like',"%$value%")
-        ->paginate(10);
+        ->get();
     }
 }
