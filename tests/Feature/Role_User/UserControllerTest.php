@@ -71,6 +71,7 @@ class UserControllerTest extends TestCase
     public function test_user_identified()
     {
         DefaultDataSeed::default_data_seed();
+        
         $user = User::first();
 
         Passport::actingAs($user);
@@ -78,6 +79,29 @@ class UserControllerTest extends TestCase
         $response = $this->getJson('/api/panel/user/identified');
 
         $response->assertOk();
+    }
+
+    /** @test */
+    public function test_user_permissions()
+    {
+        DefaultDataSeed::default_data_seed();
+        $user = User::first();
+
+        Passport::actingAs($user);
+
+        $response = $this->getJson('/api/panel/user/permissions');
+
+        $response->assertOk();
+
+        $user = User::where('id', '=', Auth::user()->id)->with('roles')->get();
+
+        $role = $user[0]->roles[0];
+
+        $role_permission = Role::where('id', '=', $role->id)->with('permissions')->get();
+
+        $permissions = $role_permission[0]->permissions;
+
+        $response->assertJsonStructure(['permissions'])->assertStatus(200);
     }
 
 
@@ -99,7 +123,7 @@ class UserControllerTest extends TestCase
         Gate::authorize('haveaccess', 'user.index');
 
         $users = User::searchUser();
-        
+
         $response->assertOk();
 
         $response->assertJsonStructure(['users', 'status'])->assertStatus(200);
@@ -233,6 +257,6 @@ class UserControllerTest extends TestCase
 
 
 
-        $response->assertJsonStructure(['message', 'status','users'])->assertStatus(200);
+        $response->assertJsonStructure(['message', 'status', 'users'])->assertStatus(200);
     }
 }

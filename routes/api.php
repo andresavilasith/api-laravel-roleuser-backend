@@ -25,6 +25,9 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:api')->prefix('panel')->group(function () {
     Route::get('user/identified', [UserController::class, 'user_identified']);
+    
+    Route::get('user/permissions', [UserController::class, 'user_permissions']);
+
     Route::get('user/role', [UserController::class, 'user_roles_permissions']);
     Route::post('user', [UserController::class, 'index']);
     Route::resource('user', UserController::class,['except'=>['create','store','index']])->names('user');

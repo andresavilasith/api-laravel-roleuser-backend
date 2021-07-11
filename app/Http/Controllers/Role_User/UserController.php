@@ -75,6 +75,21 @@ class UserController extends Controller
         return $user;
     }
 
+    public function user_permissions()
+    {
+        $user = User::where('id', '=', Auth::user()->id)->with('roles')->get();
+
+        $role = $user[0]->roles[0];
+
+        $role_permission = Role::where('id', '=', $role->id)->with('permissions')->get();
+
+        $permissions = $role_permission[0]->permissions;
+
+        return response()->json([
+            'permissions' => $permissions
+        ]);
+    }
+
 
 
     public function show(User $user)
@@ -120,16 +135,11 @@ class UserController extends Controller
     {
         Gate::authorize('update', [$user, ['user.edit', 'userown.edit']]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email
-        ]);
-
-
-
         if ($request->get('roles')) {
             $user->roles()->sync($request->get('roles'));
         }
+
+        $user->update($request->all());
 
         return response()->json([
             'user' => $user,
