@@ -85,6 +85,10 @@ class RoleUserSeeder extends Seeder
             'name' => ' Category',
             'description' => 'All the category functions'
         ]);
+        $self_permission = Category::create([
+            'name' => ' Permission',
+            'description' => 'All the permission functions'
+        ]);
 
         
 
@@ -259,6 +263,55 @@ class RoleUserSeeder extends Seeder
             'name' => 'destroy category',
             'slug' => 'category.destroy',
             'description' => 'An user can destroy category'
+        ]);
+        $permission_all[] = $permission->id;
+
+
+
+        $permission = Permission::create([
+            'category_id' => $self_permission->id,
+            'name' => 'index permission',
+            'slug' => 'permission.index',
+            'description' => 'An user can index permission'
+        ]);
+        $permission_all[] = $permission->id;
+
+
+
+        $permission = Permission::create([
+            'category_id' => $self_permission->id,
+            'name' => 'show permission',
+            'slug' => 'permission.show',
+            'description' => 'An user can show permission'
+        ]);
+        $permission_all[] = $permission->id;
+
+
+        $permission = Permission::create([
+            'category_id' => $self_permission->id,
+            'name' => 'create permission',
+            'slug' => 'permission.create',
+            'description' => 'An user can create permission'
+        ]);
+        $permission_all[] = $permission->id;
+
+
+
+        $permission = Permission::create([
+            'category_id' => $self_permission->id,
+            'name' => 'edit permission',
+            'slug' => 'permission.edit',
+            'description' => 'An user can edit permission'
+        ]);
+        $permission_all[] = $permission->id;
+
+
+
+        $permission = Permission::create([
+            'category_id' => $self_permission->id,
+            'name' => 'destroy permission',
+            'slug' => 'permission.destroy',
+            'description' => 'An user can destroy permission'
         ]);
         $permission_all[] = $permission->id;
 
