@@ -62,7 +62,7 @@ class PermissionControllerTest extends TestCase
 
         $response->assertOk();
 
-        $response->assertJsonStructure(['permission','categories', 'status'])->assertStatus(200);
+        $response->assertJsonStructure(['permission', 'categories', 'status'])->assertStatus(200);
     }
 
     /** @test */
@@ -147,9 +147,11 @@ class PermissionControllerTest extends TestCase
 
         Gate::authorize('haveaccess', 'permission.edit');
 
+        $categories = Category::all();
+
         $response->assertOk();
 
-        $response->assertJsonStructure(['permission', 'status']);
+        $response->assertJsonStructure(['categories','permission', 'status']);
     }
 
     public function test_permission_update()

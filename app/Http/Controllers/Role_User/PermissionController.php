@@ -26,7 +26,7 @@ class PermissionController extends Controller
 
     public function show(Permission $permission)
     {
-        $categories=Category::all();
+        $categories = Category::all();
 
         return response()->json([
             'permission' => $permission,
@@ -60,7 +60,10 @@ class PermissionController extends Controller
     {
         Gate::authorize('haveaccess', 'permission.edit');
 
+        $categories = Category::all();
+
         return response()->json([
+            'categories' => $categories,
             'permission' => $permission,
             'status' => 'success'
         ], 200);
