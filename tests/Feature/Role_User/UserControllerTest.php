@@ -8,8 +8,10 @@ use App\Models\Role_User\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -71,7 +73,7 @@ class UserControllerTest extends TestCase
     public function test_user_identified()
     {
         DefaultDataSeed::default_data_seed();
-        
+
         $user = User::first();
 
         Passport::actingAs($user);
@@ -239,6 +241,59 @@ class UserControllerTest extends TestCase
         $response->assertJsonStructure(['user', 'message', 'status'])->assertStatus(200);
     }
 
+
+    /** @test */
+    public function test_user_upload_img()
+    {
+
+        $this->withoutExceptionHandling();
+
+        DefaultDataSeed::default_data_seed();
+
+        $user = User::first();
+
+        Passport::actingAs($user);
+
+        Storage::fake('public');
+
+        Storage::delete($user->img);
+
+        $file = UploadedFile::fake()->image('test.png');
+        $response = $this->post('/api/panel/user/upload/' . $user->id, [
+            'img' => $file
+        ]);
+
+
+        $response->assertOk();
+
+        Storage::exists($file);
+
+
+
+        $response->assertJsonStructure(['data']);
+    }
+
+    /** @test */
+    public function test_user_get_img()
+    {
+        $this->withoutExceptionHandling();
+
+        DefaultDataSeed::default_data_seed();
+
+        $user = User::first();
+
+        Passport::actingAs($user);
+
+        $file = UploadedFile::fake()->image('test.png');
+
+        $user->img = $file;
+
+        $response = $this->get('/api/panel/user/img/' . $user->img);
+
+        Storage::exists($user->img);
+
+        $response->assertOk();
+    }
     /** @test */
     public function test_user_delete()
     {

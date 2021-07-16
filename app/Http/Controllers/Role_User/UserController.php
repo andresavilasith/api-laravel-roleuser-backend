@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Role_User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role_User\User\UserUpdateRequest;
+use App\Http\Requests\UserImageRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Models\Role_User\Role;
 use App\Models\User;
+use Illuminate\Http\Response;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -147,6 +151,55 @@ class UserController extends Controller
             'status' => 'success'
         ]);
     }
+
+    public function uploadImgUser(Request $request, User $user)
+    {
+
+
+        $image = $request->file('img');
+
+        if ($image) {
+
+            if ($user->img) {
+
+                Storage::disk('public')->delete($user->img);
+            }
+            $img = Storage::disk('public')->put('', new File($image));
+
+            $user->img = $img;
+
+            $user->update();
+            $data = [
+                'status' => 'success',
+                'img'=>$user->img
+            ];
+        } else {
+
+            $data = [
+                'status' => 'error'
+            ];
+        }
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getUserImg($filename)
+    {
+        $isset_img=Storage::disk('public')->exists($filename);
+        if($isset_img){
+
+            $file = Storage::disk('public')->get($filename);
+            return new Response($file, 200);
+        }else{
+            return response()->json([
+                'code'=>404,
+                'message'=>'file not found'
+            ]);
+        }
+       
+
+    }
+
 
     public function destroy(User $user)
     {

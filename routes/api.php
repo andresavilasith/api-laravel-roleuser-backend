@@ -31,6 +31,8 @@ Route::middleware('auth:api')->prefix('panel')->group(function () {
     Route::get('user/role', [UserController::class, 'user_roles_permissions']);
     Route::post('user', [UserController::class, 'index']);
     Route::resource('user', UserController::class,['except'=>['create','store','index']])->names('user');
+    Route::post('user/upload/{user}', [UserController::class, 'uploadImgUser']);
+    Route::get('user/img/{filename}', [UserController::class, 'getUserImg']);
     
     Route::post('roles', [RoleController::class, 'index']);
     Route::resource('role', RoleController::class,['except'=>['index']])->names('role');
