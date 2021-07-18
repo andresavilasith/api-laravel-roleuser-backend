@@ -22,6 +22,10 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [UserController::class, 'login']);
 });
 
+Route::prefix('panel')->group(function () {
+    
+    Route::get('user/img/{filename}', [UserController::class, 'getUserImg']);
+});
 
 Route::middleware('auth:api')->prefix('panel')->group(function () {
     Route::get('user/identified', [UserController::class, 'user_identified']);
@@ -32,7 +36,6 @@ Route::middleware('auth:api')->prefix('panel')->group(function () {
     Route::post('user', [UserController::class, 'index']);
     Route::resource('user', UserController::class,['except'=>['create','store','index']])->names('user');
     Route::post('user/upload/{user}', [UserController::class, 'uploadImgUser']);
-    Route::get('user/img/{filename}', [UserController::class, 'getUserImg']);
     
     Route::post('roles', [RoleController::class, 'index']);
     Route::resource('role', RoleController::class,['except'=>['index']])->names('role');
