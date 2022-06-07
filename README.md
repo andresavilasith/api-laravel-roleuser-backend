@@ -1,7 +1,7 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 
-# Api Laravel 8 de Sistema de roles y permisos
+# Api Laravel 9 de Sistema de roles y permisos
 # PHP version 8.0.1
 ## [Frontend realizado en Angular](https://github.com/andresaviladw/api-angular-roleuser-frontend) 
 

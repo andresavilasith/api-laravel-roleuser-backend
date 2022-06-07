@@ -25,10 +25,8 @@ class CategoryUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        //Obtener el rol
         $category = $this->route('category');
 
-        //Si el rol existe se puede quedar con los mismos datos pero no duplicar los datos de otros
         if ($category) {
             return [
                 'name' => 'required|max:50|unique:categories,name,' . $category->id,

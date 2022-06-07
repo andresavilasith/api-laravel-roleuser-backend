@@ -269,7 +269,6 @@ class UserControllerTest extends TestCase
         Storage::exists($file);
 
 
-
         $response->assertJsonStructure(['data']);
     }
 
