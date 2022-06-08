@@ -241,58 +241,7 @@ class UserControllerTest extends TestCase
         $response->assertJsonStructure(['user', 'message', 'status'])->assertStatus(200);
     }
 
-
-    /** @test */
-    public function test_user_upload_img()
-    {
-
-        $this->withoutExceptionHandling();
-
-        DefaultDataSeed::default_data_seed();
-
-        $user = User::first();
-
-        Passport::actingAs($user);
-
-        Storage::fake('public');
-
-        Storage::delete($user->img);
-
-        $file = UploadedFile::fake()->image('test.png');
-        $response = $this->post('/api/panel/user/upload/' . $user->id, [
-            'img' => $file
-        ]);
-
-
-        $response->assertOk();
-
-        Storage::exists($file);
-
-
-        $response->assertJsonStructure(['data']);
-    }
-
-    /** @test */
-    public function test_user_get_img()
-    {
-        $this->withoutExceptionHandling();
-
-        DefaultDataSeed::default_data_seed();
-
-        $user = User::first();
-
-        Passport::actingAs($user);
-
-        $file = UploadedFile::fake()->image('test.png');
-
-        $user->img = $file;
-
-        $response = $this->get('/api/panel/user/img/' . $user->img);
-
-        Storage::exists($user->img);
-
-        $response->assertOk();
-    }
+ 
     /** @test */
     public function test_user_delete()
     {

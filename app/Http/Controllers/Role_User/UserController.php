@@ -152,56 +152,6 @@ class UserController extends Controller
         ]);
     }
 
-    public function uploadImgUser(Request $request, User $user)
-    {
-
-
-        $image = $request->file('img');
-
-        if ($image) {
-
-            if ($user->img) {
-
-                Storage::disk('public')->delete($user->img);
-            }
-            $img = Storage::disk('public')->put('', new File($image));
-
-            $user->img = $img;
-
-            $user->update();
-            $data = [
-                'status' => 'success',
-                'img'=>$user->img
-            ];
-        } else {
-
-            $data = [
-                'status' => 'error'
-            ];
-        }
-
-        return response()->json(['data' => $data]);
-    }
-
-    public function getUserImg($filename)
-    {
-        $isset_img=Storage::disk('public')->exists($filename);
-
-        if($isset_img){
-            
-            $file = Storage::disk('public')->get($filename);
-            $path=Storage::url('users/'.$filename);
-            //return new Response($file, 200);
-            return new Response($file, 200);
-        }else{
-            return response()->json([
-                'code'=>404,
-                'message'=>'file not found'
-            ]);
-        }
-       
-
-    }
 
 
     public function destroy(User $user)
