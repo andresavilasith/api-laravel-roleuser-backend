@@ -21,7 +21,6 @@
 ### Lo que contiene:
 
 - [x] TDD(Feature test driven development)
-- [x] Subida y visualización de imagenes
 - [x] Validación de datos mediante Request en formularios
 - [x] Autenticación con Laravel Passport
 
