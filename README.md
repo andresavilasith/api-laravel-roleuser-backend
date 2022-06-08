@@ -76,27 +76,20 @@ php artisan migrate --seed
 ```php
 php artisan passport:install
 ```
-9. Generar acceso directo desde public 
-```php
-php artisan storage:link
-```
-
-10. Crear dentreo de public/storage una carpeta users 
-
-11. Aparecera algo como lo siguiente en la consola
+10. Aparecera algo como lo siguiente en la consola
 
 - Client ID: 1
 * Client secret: `dCu1eD7c8JVPp0Upk8tBgTbCU0X9beeqp60JpUw1`
 - Client ID: 2
 * Client secret: `CnmUKWB7A6l0JeKVZIOrOYwWb4e7FFUEYkJjdkj0`
 
-12. Copiar las claves de acceso en algun archivo de texto o acceder a la tabla `oauth_clients` en la base de datos donde2 estan alojadas
+11. Copiar las claves de acceso en algun archivo de texto o acceder a la tabla `oauth_clients` en la base de datos donde2 estan alojadas
 
-13. Escribir la clave de acceso del Client ID: 2 donde sea el inicio de sesion en el frontend, en este caso la clave de acceso seria: `CnmUKWB7A6l0JeKVZIOrOYwWb4e7FFUEYkJjdkj0`
+12. Escribir la clave de acceso del Client ID: 2 donde sea el inicio de sesion en el frontend, en este caso la clave de acceso seria: `CnmUKWB7A6l0JeKVZIOrOYwWb4e7FFUEYkJjdkj0`
 
-14. En mi caso seria en el repositorio: [Frontend Angular](https://github.com/andresaviladw/api-angular-roleuser-frontend)
+13. En mi caso seria en el repositorio: [Frontend Angular](https://github.com/andresaviladw/api-angular-roleuser-frontend)
 
-15. Entrar a `src/app/services/` abrir el archivo `global.service.ts` y pegar la clave de accesso en:
+14. Entrar a `src/app/services/` abrir el archivo `global.service.ts` y pegar la clave de accesso en:
 
 ```js
 export var global={
@@ -114,12 +107,12 @@ export var global={
 ```
 
 
-16. Ejecutar el proyecto: 
+15. Ejecutar el proyecto: 
 ```
 php artisan serve
 ```
 
-17. Comandos para verificacion de test
+16. Comandos para verificacion de test
 	```php
 	php artisan test
 	```
